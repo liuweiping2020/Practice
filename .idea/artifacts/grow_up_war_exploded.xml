@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="grow-up:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/grow_up_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="grow-up/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="grow-up" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

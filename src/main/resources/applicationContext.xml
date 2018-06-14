@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+    <!-- ******************************** hibernate 配 置 ******************************** -->
+    <!-- 启动组件扫描，排除@Controller组件，该组件由SpringMVC配置文件扫描 -->
+    <context:component-scan base-package="org.zh.springmvc">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--扫描配置文件(这里指向的是之前配置的那个 hibernateconfig.properties)-->
+    <context:property-placeholder location="classpath:hibernateconfig.properties"/>
+    <!--配置数据源-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driver}"/>  <!--数据库连接驱动-->
+        <property name="jdbcUrl" value="${jdbc.url}"/>     <!--数据库地址-->
+        <property name="user" value="${jdbc.username}"/>   <!--用户名-->
+        <property name="password" value="${jdbc.password}"/>   <!--密码-->
+        <property name="maxPoolSize" value="40"/>      <!--最大连接数-->
+        <property name="minPoolSize" value="1"/>       <!--最小连接数-->
+        <property name="initialPoolSize" value="10"/>      <!--初始化连接池内的数据库连接-->
+        <property name="maxIdleTime" value="20"/>  <!--最大空闲时间-->
+    </bean>
+    <!-- JPA实体管理工厂的配置 -->
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <property name="packagesToScan" value="org.zh.springmvc.entity"/><!--待扫描的实体类包，不再需要persistence.xml了 -->
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>
+    <!--指定实现JPA的适配器 -->
+    <bean id="hibernateJpaVendorAdapter"
+          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect"/>
+    </bean>
+    <!-- Jpa 事务配置 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <!-- Spring Data Jpa 配置 Spring -->
+    <!-- 初始化容器时将会扫描 base-package 指定的包目录及其子目录，为继承 Repository 或其子接口的接口创建代理对象，并将代理对象注册为
+        Spring Bean -->
+    <!-- base-package 扫描的包 -->
+    <!-- repository-impl-postfix 仓库自定义实现类的后缀。自动扫描该名称带有该后缀的类，并添加到接口的实现 -->
+    <!-- factory-class 仓库接口的实现工厂 -->
+    <jpa:repositories base-package="org.zh.springmvc.repository"
+                      entity-manager-factory-ref="entityManagerFactory"
+                      transaction-manager-ref="transactionManager">
+    </jpa:repositories>
+</beans>

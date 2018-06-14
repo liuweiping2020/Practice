@@ -1,13 +1,18 @@
-# 这是一个SpringMVC+Gradle项目
-#### 这个是我的一个SpringMVC练习项目
-#### 前台用的是Vue.js实现
-#### 由于工作的原因，所以不是定时的进行更新
-#### 因为之前发了
-* 项目还在完善中，前台只是加入了Vue并没有和后台关联起来
-* webpack配置中只有一个配置，只是为了能让Vue能正常运行
-* 查看前台请先安装node.js，然后cmd指向本项目的ui目录下执行npm install进行安装Vue的依赖
-* 为了安装的速度更快建议安装淘宝镜像
-* 淘宝镜像全局安装方式：npm install -g cnpm --registry=https://registry.npm.taobao.org
-* 依赖包安装完成之后执行npm run build进行前台项目打包，然后直接在浏览器中打开index.html可以看到效果
-* 真实的页面在ui/page/Test.vue文件下，修改了之后重复上一步动作可以看修改后的效果
-* 改App.vue页面也可以，但是不建议修改该文件，因为这个文件我后续会使用到，一般不会对他进行修改
+# SpringMVC+Vue的练习项目
+### 前台页面使用了Vue进行开发
+* 前台结构在ui文件夹下面
+* 使用的时候需要安装node.js，这个请自行下载安装
+* 安装完成之后在cmd中定位到ui这个文件，执行npm install 进行安装下载vue的各种依赖文件（node.js安装完成之后会自动安装npm）
+* 推荐使用国内淘宝镜像，这样安装速度会快一点
+* 安装方法：
+    * 命令行执行 npm config set registry https://registry.npm.taobao.org 
+    * npm info underscore （如果上面配置正确这个命令会有字符串response）
+    * 安装完成之后就可以执行cnpm install 进行安装下载vue的依赖
+### 后台Spring+Hibernate
+* 后台结构在src/main/java文件夹下面
+    * controller 控制层
+    * entity 实体层
+    * repository 数据持久层
+    * service 数据服务层
+* 后台的数据持久化是是使用了hibernate的jpa进行数据持久化
+* 个人感觉比纯hibernate好用，具体点用法大家请自行查阅

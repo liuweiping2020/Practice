@@ -19,5 +19,7 @@
         <property name="prefix" value="/page/"/><!-- 后台默认返回视图寻找视图文件的路径 -->
         <property name="suffix" value=".jsp"/><!-- 后台返回视图默认添加的后缀 -->
     </bean>
+    <!-- 配置静态资源不拦截 -->
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
 
 </beans>
